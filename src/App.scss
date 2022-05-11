@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Rubik:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+* {
+	box-sizing: border-box;
+	outline: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	font-family: "Poppins";
+	color: #333;
+}
+
+#root {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.App {
+	height: 100%;
+	width: 1280px;
+	padding: 15px 0;
+	display: flex;
+	gap: 10px;
+	animation: fadein 250ms both;
+
+	& aside {
+		height: 100%;
+		width: 300px;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		flex-direction: column;
+
+		& .file-list {
+			height: 100%;
+			width: 100%;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			overflow-y: auto;
+
+			& .no-file {
+				font-size: 0.85em;
+				font-style: italic;
+				text-align: center;
+				color: #aaa;
+			}
+		}
+	}
+
+	& .wrapper-content {
+		height: 100%;
+		border-left: 1px solid #dadce0;
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+}
+
+button {
+	cursor: pointer;
+	width: 100%;
+	color: #fff;
+	background: #3f88c5;
+	padding: 10px;
+	border: 1px solid #3f88c5;
+	border-radius: 3px;
+	transition: 0.15s;
+
+	&:disabled {
+		cursor: default;
+		opacity: 0.5;
+	}
+
+	&:not(:disabled):hover {
+		box-shadow: #105b97 0 0 3px 1px;
+		background: #105b97;
+		color: #fff;
+	}
+}
+
+ul,
+li {
+	list-style: none;
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@media (max-width: 1280px) {
+	.App {
+		width: 100%;
+	}
+}

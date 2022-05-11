@@ -1,0 +1,24 @@
+.directory {
+    height: fit-content;
+    width: 100%;
+    padding-left: 10px;
+    margin-bottom: 10px;
+
+    & details {
+        cursor: pointer;
+        transition: 0.15s;
+
+        &:not([open]) ul {
+            display: none;
+        }
+
+        &[open] ul {
+            display: block;
+            margin-top: 10px;
+
+            & > summary {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}
