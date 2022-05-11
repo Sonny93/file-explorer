@@ -18,7 +18,7 @@ export async function handleDirectory(directoryHandle: FileSystemDirectoryHandle
             obj = {
                 kind: content.kind,
                 name: content.name,
-                fileContent: await content.getFile()
+                fileContent: content
             } as FileFolder;
         } else {
             obj = {

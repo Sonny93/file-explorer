@@ -7,5 +7,5 @@ export interface DirectoryFolder {
 export interface FileFolder {
     kind: string;
     name: string;
-    fileContent: File;
+    fileContent: FileSystemFileHandle;
 }
