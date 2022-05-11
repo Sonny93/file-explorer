@@ -10,6 +10,7 @@
     "@types/node": "^17.0.32",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
+    "nprogress": "^0.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-resizable": "^3.0.4",
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-resizable": "^1.7.4"
+    "@types/react-resizable": "^1.7.4",
+    "sass": "^1.51.0"
   }
 }
