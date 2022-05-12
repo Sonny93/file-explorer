@@ -22,7 +22,7 @@ export default function Directory({ directory, opened = false }: DirectoryProps)
         <div className='directory'>
             <details open={isOpen}>
                 <summary onClick={toggleOpen}>
-                    {name} — {files.length}
+                    {name}<span className="size"> — {files.length}</span>
                 </summary>
                 {isOpen && (
                     <ul>
