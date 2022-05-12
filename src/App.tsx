@@ -5,8 +5,8 @@ import nprogress from 'nprogress';
 import FileExplorer from 'components/FileExplorer/FileExplorer';
 import SideMenu from 'components/SideMenu/SideMenu';
 
-import { DirectoryFolder } from './types';
-import { handleContent } from './utils';
+import { DirectoryFolder, FileFolder } from './types';
+import { calculSize, handleContent, prettyPrintNumber } from './utils';
 
 import 'nprogress/nprogress.css';
 import './App.scss';
@@ -17,7 +17,12 @@ function App() {
 	const [directory, setDirectory] = useState<DirectoryFolder | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
+	const [directoryCount, setDirectoryCount] = useState<number>(0);
+	const [filesCount, setFilesCount] = useState<number>(0);
+	const [totalSize, setTotalSize] = useState<number>(0);
+
 	if (!('showDirectoryPicker' in window)) {
+		setTotalSize(0)
 		return (
 			<p style={{ color: 'red', fontSize: '2em', textTransform: 'uppercase' }}>
 				Navigateur incompatible
@@ -25,13 +30,31 @@ function App() {
 		)
 	}
 
+	const resetStates = () => {
+		setFilesCount(0);
+		setDirectoryCount(0);
+		setDirectory(null);
+	}
+
 	const getFolder = async () => {
+		resetStates();
 		const content = await window.showDirectoryPicker();
 
 		setLoading(true);
 		nprogress.start();
 
-		const directory = await handleContent(content) as DirectoryFolder;
+		const directory = await handleContent(content, (file: DirectoryFolder | FileFolder) => {
+			if (file.kind === 'directory') {
+				setDirectoryCount((state) => state + 1);
+			} else {
+				setFilesCount((state) => state + 1);
+				(file as FileFolder)
+					.fileContent
+					.getFile()
+					.then((file) => setTotalSize((state) => state + file.size))
+					.catch(console.error);
+			}
+		}) as DirectoryFolder;
 
 		setLoading(false);
 		nprogress.done();
@@ -46,14 +69,15 @@ function App() {
 				directory={directory}
 			/>
 			<div className='wrapper-content'>
+				<span>{prettyPrintNumber(filesCount)} fichiers</span>
+				<span>{prettyPrintNumber(directoryCount)} dossiers</span>
+				<span>{calculSize(totalSize)}</span>
 				{loading
-					? <p>Chargement en cours...</p>
+					? (<p>Chargement en cours...</p>)
 					: <FileExplorer directory={directory} />}
 			</div>
 		</div>
 	);
 }
-
-
 
 export default App;

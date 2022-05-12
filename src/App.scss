@@ -67,6 +67,10 @@ body {
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+
+		& span {
+			animation: fadein 250ms both;
+		}
 	}
 }
 

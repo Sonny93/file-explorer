@@ -1,15 +1,18 @@
 import { DirectoryFolder, FileFolder } from "types";
 
-export async function handleContent(directoryHandle: FileSystemDirectoryHandle) {
+export async function handleContent(directoryHandle: FileSystemDirectoryHandle, callback?: (file: DirectoryFolder | FileFolder) => void) {
     const directory = {
         kind: directoryHandle.kind,
         name: directoryHandle.name,
-        files: await handleDirectory(directoryHandle)
-    };
+        files: await handleDirectory(directoryHandle, callback)
+    } as DirectoryFolder;
+    if (callback) {
+        callback(directory);
+    }
     return directory;
 }
 
-export async function handleDirectory(directoryHandle: FileSystemDirectoryHandle) {
+export async function handleDirectory(directoryHandle: FileSystemDirectoryHandle, callback?: (file: DirectoryFolder | FileFolder) => void) {
     const folder = [] as Array<DirectoryFolder | FileFolder>;
     // @ts-ignore: values n'existe pas dans la def typescript de VSCode mais la méthode existe
     for await (const content of directoryHandle.values()) {
@@ -24,9 +27,14 @@ export async function handleDirectory(directoryHandle: FileSystemDirectoryHandle
             obj = {
                 kind: content.kind,
                 name: content.name,
-                files: await handleDirectory(content)
+                files: await handleDirectory(content, callback)
             } as DirectoryFolder;
         }
+
+        if (callback) {
+            callback(obj);
+        }
+
         folder.push(obj);
     }
 
@@ -58,4 +66,8 @@ export function calculSize(value: bigint | number = BigInt(0), decimals: number 
     const i = Math.floor(Math.log(octets) / Math.log(k));
 
     return `${parseFloat((octets / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+export function prettyPrintNumber(value: bigint | number = BigInt(0)): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
