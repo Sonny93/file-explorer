@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import File from './FileListFile';
-import { DirectoryFolder, FileFolder } from '../../types';
+import { DirectoryFolder, FileFolder } from '../../../types';
 
-import './FileListDirectory.scss';
+import '../../../styles/FileExplorer/FileListDirectory.scss';
 
 interface DirectoryProps {
     directory: DirectoryFolder;

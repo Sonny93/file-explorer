@@ -1,6 +1,9 @@
+@use "../Keyframes.scss";
+
 .file {
     height: fit-content;
     width: 100%;
     margin-bottom: 10px;
     padding-left: 15px;
+    animation: slidein 250ms both, fadein 250ms both;
 }

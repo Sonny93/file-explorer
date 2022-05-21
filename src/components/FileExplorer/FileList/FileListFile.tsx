@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { calculSize } from 'utils';
-import { FileFolder } from '../../types';
+import { FileFolder } from '../../../types';
 
-import './FileListFile.scss';
+import '../../../styles/FileExplorer/FileListFile.scss';
 
 export default function File({ file }: { file: FileFolder; }) {
     const { name, fileContent } = file;

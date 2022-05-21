@@ -1,0 +1,34 @@
+aside.side-menu {
+    height: 100%;
+    width: 300px;
+    padding-right: 10px;
+    border-right: 1px solid #dadce0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+
+    & .menu-field {
+        height: auto;
+        width: 100%;
+        padding: 0 15px;
+
+        &.status {
+            font-size: 0.85em;
+            font-style: italic;
+            text-align: center;
+
+            & span.no-folder {
+                color: #aaa;
+            }
+
+            & span.in-progress {
+                color: orange;
+            }
+
+            & span.finish {
+                color: #3f88c5;
+            }
+        }
+    }
+}

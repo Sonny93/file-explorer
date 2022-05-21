@@ -1,27 +1,19 @@
 import React from 'react';
-import { DirectoryFolder } from 'types';
+import 'react-resizable/css/styles.css';
 
-import './FileExplorer.scss';
+import Directory from './FileList/FileListDirectory';
+import { DirectoryFolder } from '../../types';
 
-export default function FileExplorer({ directory }: { directory: DirectoryFolder | null; }) {
-    if (!directory) {
-        return (
-            <div className='file-explorer'>
-                <p className='no-file'>Aucun fichier — dossier ouvert</p>
+import '../../styles/FileExplorer/FileExplorer.scss'
+
+export default function FileExplorer({ directory }: { directory: DirectoryFolder | null }) {
+    return (
+        <div className='file-explorer'>
+            <div className='file-list'>
+                {directory
+                    ? <Directory directory={directory} opened={true} />
+                    : <p className='no-file'>Aucun fichier — dossier ouvert</p>}
             </div>
-        )
-    }
-
-    const { files } = directory;
-    if (files.length === 0) {
-        return (
-            <div className='file-explorer'>
-                <p className='no-file'>Aucun fichier</p>
-            </div>
-        );
-    }
-
-    return (<div className='file-explorer'>
-        <p>file explorer</p>
-    </div>);
+        </div>
+    )
 }
