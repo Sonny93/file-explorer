@@ -17,19 +17,24 @@ interface SideMenuProps {
     getFolder: () => Promise<void>;
     loading: boolean;
     isFolderSelected: boolean;
-    filesCount: number;
     directoryCount: number;
+    filesCount: number;
+    uncomputedFiles: number;
     totalSize: number;
+    computeTime: number;
 }
 export default function SideMenu({
     getFolder,
     loading,
     isFolderSelected,
-    filesCount = 0,
     directoryCount = 0,
-    totalSize
+    filesCount = 0,
+    uncomputedFiles = 0,
+    totalSize,
+    computeTime = 0
 }: SideMenuProps) {
     const [width, setWidth] = useState<number>(Number(localStorage.getItem(SIDEBAR_LOCALSTORAGE_KEY) || SIDEBAR_DEFAULT_SIZE));
+    const { size, unit } = calculSize(totalSize);
     const totalCount = filesCount + directoryCount;
 
     const resize = (_event: React.SyntheticEvent, { size }: ResizeCallbackData) => {
@@ -64,15 +69,36 @@ export default function SideMenu({
                         )}
                 </div>
                 {isFolderSelected && (<>
-                    <div className='menu-field'>
+                    <div className='menu-field stats'>
                         <details open>
                             <summary>
-                                Total fichiers/dossiers : {prettyPrintNumber(totalCount)}
+                                Statistiques
                             </summary>
                             <ul>
-                                <li>{prettyPrintNumber(filesCount)} fichiers</li>
-                                <li>{prettyPrintNumber(directoryCount)} dossiers</li>
-                                <li>{calculSize(totalSize)}</li>
+                                <li>
+                                    <span>{prettyPrintNumber(filesCount)}</span>
+                                    <span>fichiers</span>
+                                </li>
+                                <li>
+                                    <span>{prettyPrintNumber(directoryCount)}</span>
+                                    <span>dossiers</span>
+                                </li>
+                                <li>
+                                    <span>{prettyPrintNumber(totalCount)}</span>
+                                    <span>total</span>
+                                </li>
+                                <li>
+                                    <span>{prettyPrintNumber(uncomputedFiles)}</span>
+                                    <span>fichiers non traités</span>
+                                </li>
+                                <li>
+                                    <span>{size} {unit}</span>
+                                    <span>poids total</span>
+                                </li>
+                                <li>
+                                    <span>{computeTime}s</span>
+                                    <span>temps calcul</span>
+                                </li>
                             </ul>
                         </details>
                     </div>

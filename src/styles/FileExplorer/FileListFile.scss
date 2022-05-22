@@ -1,9 +1,25 @@
 @use "../Keyframes.scss";
 
 .file {
+    cursor: pointer;
     height: fit-content;
-    width: 100%;
+    width: fit-content;
     margin-bottom: 10px;
-    padding-left: 15px;
+    margin-left: 15px;
+    border-bottom: 1px solid transparent;
+    border-style: dotted;
     animation: slidein 250ms both, fadein 250ms both;
+    transition: 0.15s;
+
+    & > .size {
+        font-size: 0.85em;
+        text-align: center;
+        color: #aaa;
+    }
+
+    &:hover {
+        color: #105b97;
+        border-bottom: 1px solid #105b97;
+        border-style: dotted;
+    }
 }

@@ -6,8 +6,13 @@
     padding-left: 10px;
     margin-bottom: 10px;
     animation: slidein 250ms both, fadein 250ms both;
+    transition: 0.15s;
 
-    & details summary .size {
+    & details summary:hover {
+        color: #105b97;
+    }
+
+    & details summary > .size {
         font-size: 0.85em;
         text-align: center;
         color: #aaa;

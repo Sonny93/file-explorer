@@ -30,5 +30,38 @@ aside.side-menu {
                 color: #3f88c5;
             }
         }
+
+        &.stats details ul li {
+            width: 100%;
+            border-bottom: 1px solid transparent;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+
+            & > span {
+                height: fit-content;
+            }
+
+            & > span:first-child {
+                text-align: end;
+                width: 40%;
+                border-right: 1px solid #dadce0;
+                padding-right: 5px;
+            }
+
+            & > span:last-child {
+                text-align: start;
+                width: 60%;
+                color: #aaa;
+            }
+
+            &:hover {
+                border-bottom: 1px solid #dadce0;
+                border-style: dotted;
+            }
+        }
     }
 }

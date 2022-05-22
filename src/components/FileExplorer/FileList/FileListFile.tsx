@@ -6,17 +6,17 @@ import '../../../styles/FileExplorer/FileListFile.scss';
 
 export default function File({ file }: { file: FileFolder; }) {
     const { name, fileContent } = file;
-    const [size, setSize] = useState<number>(0);
+    const [{ size, unit }, setSize] = useState<{ size: number; unit: string; }>(calculSize(0));
 
     useEffect(() => {
         fileContent
             .getFile()
-            .then(({ size }) => setSize(size));
+            .then(({ size }) => setSize(calculSize(size)));
     }, [fileContent]);
 
     return (
         <li className='file'>
-            {name} — {calculSize(size)}
+            {name} <span className='size'>— {size} {unit}</span>
         </li>
     );
 }

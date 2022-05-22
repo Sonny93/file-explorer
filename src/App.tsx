@@ -6,7 +6,7 @@ import FileExplorer from 'components/FileExplorer/FileExplorer';
 import SideMenu from 'components/SideMenu';
 
 import { DirectoryFolder, FileFolder } from './types';
-import { handleContent } from './utils';
+import { DirectoryFolderBuilder, handleDirectory } from './utils';
 
 import 'nprogress/nprogress.css';
 import './styles/App.scss';
@@ -21,7 +21,9 @@ function App() {
 
 	const [directoryCount, setDirectoryCount] = useState<number>(0);
 	const [filesCount, setFilesCount] = useState<number>(0);
+	const [uncomputedFiles, setUncomputedFiles] = useState<number>(0);
 	const [totalSize, setTotalSize] = useState<number>(0);
+	const [computeTime, setComputeTime] = useState<number>(0);
 
 	if (!('showDirectoryPicker' in window)) {
 		setTotalSize(0);
@@ -41,13 +43,15 @@ function App() {
 
 	const getFolder = async () => {
 		resetStates();
-		const content = await window.showDirectoryPicker();
+		const directoryHandle = await window.showDirectoryPicker();
+
+		const intervalCompute = setInterval(() => setComputeTime((props) => props + 1), 1000);
+		nprogress.start();
 
 		setIsFolderSelected(true);
 		setLoading(true);
-		nprogress.start();
 
-		const directory = await handleContent(content, (file: DirectoryFolder | FileFolder) => {
+		const files = await handleDirectory(directoryHandle, (file: DirectoryFolder | FileFolder) => {
 			if (file.kind === 'directory') {
 				setDirectoryCount((state) => state + 1);
 			} else {
@@ -56,11 +60,16 @@ function App() {
 					.fileContent
 					.getFile()
 					.then((file) => setTotalSize((state) => state + file.size))
-					.catch(console.error);
+					.catch((error) => {
+						setUncomputedFiles((props) => props + 1);
+						console.error(file.kind, file.name, error);
+					});
 			}
-		}) as DirectoryFolder;
+		});
+		const directory = DirectoryFolderBuilder(directoryHandle, files);
 
 		setLoading(false);
+		clearInterval(intervalCompute);
 		nprogress.done();
 
 		setDirectory(directory);
@@ -72,9 +81,11 @@ function App() {
 				getFolder={getFolder}
 				loading={loading}
 				isFolderSelected={isFolderSelected}
-				filesCount={filesCount}
 				directoryCount={directoryCount}
+				filesCount={filesCount}
+				uncomputedFiles={uncomputedFiles}
 				totalSize={totalSize}
+				computeTime={computeTime}
 			/>
 			<FileExplorer
 				directory={directory}
