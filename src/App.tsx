@@ -26,7 +26,6 @@ function App() {
 	const [computeTime, setComputeTime] = useState<number>(0);
 
 	if (!('showDirectoryPicker' in window)) {
-		setTotalSize(0);
 		return (
 			<p style={{ color: 'red', fontSize: '2em', textTransform: 'uppercase' }}>
 				Navigateur incompatible
